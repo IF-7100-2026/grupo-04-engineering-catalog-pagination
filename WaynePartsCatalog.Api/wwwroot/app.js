@@ -10,6 +10,16 @@ const pageInfo = document.getElementById("pageInfo");
 const totalInfo = document.getElementById("totalInfo");
 const timeInfo = document.getElementById("timeInfo");
 const message = document.getElementById("message");
+const materialFilter = document.getElementById("materialFilter");
+const partTypeFilter = document.getElementById("partTypeFilter");
+const weightFromFilter = document.getElementById("weightFromFilter");
+const weightToFilter = document.getElementById("weightToFilter");
+const sizeFromFilter = document.getElementById("sizeFromFilter");
+const sizeToFilter = document.getElementById("sizeToFilter");
+const manufactureDateFromFilter = document.getElementById("manufactureDateFromFilter");
+const manufactureDateToFilter = document.getElementById("manufactureDateToFilter");
+const descriptionFilter = document.getElementById("descriptionFilter");
+const searchButton = document.getElementById("searchButton");
 
 // Cuando la página termina de cargar, se consulta la primera página de datos.
 document.addEventListener("DOMContentLoaded", () => {
@@ -34,12 +44,60 @@ document.addEventListener("DOMContentLoaded", () => {
         currentPage++;
         loadParts();
     });
+
+    searchButton.addEventListener("click", () => {
+        currentPage = 0;
+        loadParts();
+    });
 });
 
 // Consulta el endpoint paginado del backend.
 async function loadParts() {
+
     const pageSize = pageSizeSelect.value;
-    const endpoint = `/api/parts?page=${currentPage}&size=${pageSize}`;
+
+    const params = new URLSearchParams();
+
+    params.append("page", currentPage);
+    params.append("size", pageSize);
+
+    if (materialFilter.value.trim() !== "") {
+        params.append("material", materialFilter.value.trim());
+    }
+
+    if (partTypeFilter.value.trim() !== "") {
+        params.append("partType", partTypeFilter.value.trim());
+    }
+
+    if (weightFromFilter.value !== "") {
+        params.append("weightFrom", weightFromFilter.value);
+    }
+
+    if (weightToFilter.value !== "") {
+        params.append("weightTo", weightToFilter.value);
+    }
+
+    if (sizeFromFilter.value !== "") {
+        params.append("sizeFrom", sizeFromFilter.value);
+    }
+
+    if (sizeToFilter.value !== "") {
+        params.append("sizeTo", sizeToFilter.value);
+    }
+
+    if (manufactureDateFromFilter.value !== "") {
+        params.append("manufactureDateFrom", manufactureDateFromFilter.value);
+    }
+
+    if (manufactureDateToFilter.value !== "") {
+        params.append("manufactureDateTo", manufactureDateToFilter.value);
+    }
+
+    if (descriptionFilter.value.trim() !== "") {
+        params.append("descriptionContains", descriptionFilter.value.trim());
+    }
+
+    const endpoint = `/api/parts?${params.toString()}`;
 
     setLoadingState(true);
 
@@ -55,9 +113,11 @@ async function loadParts() {
         renderTable(data.content);
         updatePaginationInfo(data);
         showMessage("");
-    } catch (error) {
+    }
+    catch (error) {
         showMessage("Could not connect to the backend API.");
-    } finally {
+    }
+    finally {
         setLoadingState(false);
     }
 }
