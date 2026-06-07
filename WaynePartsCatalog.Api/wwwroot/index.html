@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wayne Parts Catalog</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <!-- Page title and short project description. -->
+        <header class="header">
+            <h1>Wayne Parts Catalog</h1>
+            <p>Backend pagination demo using .NET, PostgreSQL, HTML and JavaScript</p>
+        </header>
+
+        <!-- Basic controls for changing page size and navigating between pages. -->
+        <section class="controls">
+            <label for="pageSize">Records per page:</label>
+            <select id="pageSize">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="300">300</option>
+            </select>
+
+            <button id="previousButton">Previous</button>
+            <button id="nextButton">Next</button>
+        </section>
+
+        <!-- Pagination metadata returned by the backend. -->
+        <section class="status">
+            <span id="pageInfo">Page 1</span>
+            <span id="totalInfo">Total records: 0</span>
+            <span id="timeInfo">Response time: 0 ms</span>
+        </section>
+
+        <!-- Table where JavaScript renders the records received from the API. -->
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Part ID</th>
+                        <th>Type</th>
+                        <th>Material</th>
+                        <th>Manufacture Date</th>
+                        <th>Registration Timestamp</th>
+                        <th>Weight Kg</th>
+                        <th>Size Meters</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="partsTableBody">
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Used to show loading or error messages. -->
+        <p id="message" class="message"></p>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
