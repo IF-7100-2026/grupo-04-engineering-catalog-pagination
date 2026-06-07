@@ -1,23 +1,20 @@
-﻿using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using WaynePartsCatalog.Api.Data;
 using WaynePartsCatalog.Api.DTOs;
+using WaynePartsCatalog.Api.Specifications;
 
 namespace WaynePartsCatalog.Api.Services;
 
-public class PartService
+public class PartService(AppDbContext context)
 {
+    private readonly AppDbContext _context = context;
+
+
     private const int DefaultPageSize = 10;
     private const int MaxPageSize = 300;
 
-    private readonly AppDbContext _context;
-
-    public PartService(AppDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<PaginatedResponseDto<PartResponseDto>> GetPartsAsync(int page, int size)
+    public async Task<PaginatedResponseDto<PartResponseDto>> GetPartsAsync(int page, int size, PartFilterDto filters)
     {
         ValidatePaginationParameters(page, size);
 
@@ -25,14 +22,25 @@ public class PartService
         var stopwatch = Stopwatch.StartNew();
 
         // Consulta base del catalogo.
-        // BORRAR: aqui se pueden agregar los filtros antes del conteo y la paginacion.
         var query = _context.EngineeringParts
-            .AsNoTracking()
-            .OrderBy(part => part.PartId);
+            .AsNoTracking();
 
-        var totalElements = await query.LongCountAsync();
+        query = PartSpecification.ApplyFilters(
+            query,
+            filters);
 
-        // Se aplica la paginacion en la base de datos.
+        query = query.OrderBy(p => p.PartId);
+
+        //var stopwatch = Stopwatch.StartNew();
+
+        var countWatch = Stopwatch.StartNew();
+
+        var totalElements = await query.CountAsync();
+
+        countWatch.Stop();
+
+        var dataWatch = Stopwatch.StartNew();
+
         var parts = await query
             .Skip(page * size)
             .Take(size)
@@ -48,6 +56,8 @@ public class PartService
                 LongDescription = part.LongDescription
             })
             .ToListAsync();
+
+        dataWatch.Stop();
 
         stopwatch.Stop();
 

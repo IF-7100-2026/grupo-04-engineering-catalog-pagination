@@ -6,30 +6,63 @@ namespace WaynePartsCatalog.Api.Controllers;
 
 [ApiController]
 [Route("api/parts")]
-public class PartsController : ControllerBase
+public class PartsController(PartService partService) : ControllerBase
 {
-    private readonly PartService _partService;
+    private readonly PartService _partService = partService;
 
-    public PartsController(PartService partService)
-    {
-        _partService = partService;
-    }
-
-    // Endpoint principal para consultar partes del catalogo con paginacion.
     [HttpGet]
     public async Task<ActionResult<PaginatedResponseDto<PartResponseDto>>> GetParts(
         [FromQuery] int page = 0,
-        [FromQuery] int size = 10)
+        [FromQuery] int size = 10,
+
+        [FromQuery] DateOnly? manufactureDateFrom = null,
+        [FromQuery] DateOnly? manufactureDateTo = null,
+
+        [FromQuery] DateTime? registrationFrom = null,
+        [FromQuery] DateTime? registrationTo = null,
+
+        [FromQuery] int? weightFrom = null,
+        [FromQuery] int? weightTo = null,
+
+        [FromQuery] decimal? sizeFrom = null,
+        [FromQuery] decimal? sizeTo = null,
+
+        [FromQuery] string? material = null,
+        [FromQuery] string? partType = null,
+
+        [FromQuery] string? descriptionContains = null)
     {
         try
         {
-            // BORRAR: pendiente agregar filtros de busqueda.
-            var response = await _partService.GetPartsAsync(page, size);
+            var filters = new PartFilterDto
+            {
+                ManufactureDateFrom = manufactureDateFrom,
+                ManufactureDateTo = manufactureDateTo,
+
+                RegistrationFrom = registrationFrom,
+                RegistrationTo = registrationTo,
+
+                WeightFrom = weightFrom,
+                WeightTo = weightTo,
+
+                SizeFrom = sizeFrom,
+                SizeTo = sizeTo,
+
+                Material = material,
+                PartType = partType,
+
+                DescriptionContains = descriptionContains
+            };
+
+            var response = await _partService.GetPartsAsync(
+                page,
+                size,
+                filters);
+
             return Ok(response);
         }
         catch (ArgumentException exception)
         {
-            // Respuesta controlada para parametros invalidos.
             return BadRequest(new
             {
                 message = exception.Message
