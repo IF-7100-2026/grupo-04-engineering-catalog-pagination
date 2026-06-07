@@ -101,3 +101,17 @@ td {
     margin-top: 16px;
     color: #ffcc66;
 }
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+    .filters input {
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        min-width: 160px;
+    }

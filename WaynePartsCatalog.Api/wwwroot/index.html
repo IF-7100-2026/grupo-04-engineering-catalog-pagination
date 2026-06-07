@@ -28,6 +28,44 @@
             <button id="nextButton">Next</button>
         </section>
 
+        <section class="filters">
+
+            <input type="text" id="materialFilter"
+                   placeholder="Material">
+
+            <input type="text" id="partTypeFilter"
+                   placeholder="Part Type">
+
+            <input type="number" id="weightFromFilter"
+                   placeholder="Weight From">
+
+            <input type="number" id="weightToFilter"
+                   placeholder="Weight To">
+
+            <input type="number" step="0.01"
+                   id="sizeFromFilter"
+                   placeholder="Size From">
+
+            <input type="number" step="0.01"
+                   id="sizeToFilter"
+                   placeholder="Size To">
+
+            <input type="date"
+                   id="manufactureDateFromFilter">
+
+            <input type="date"
+                   id="manufactureDateToFilter">
+
+            <input type="text"
+                   id="descriptionFilter"
+                   placeholder="Description Contains">
+
+            <button id="searchButton">
+                Search
+            </button>
+
+        </section>
+
         <!-- Pagination metadata returned by the backend. -->
         <section class="status">
             <span id="pageInfo">Page 1</span>
