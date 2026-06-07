@@ -3,13 +3,9 @@ using WaynePartsCatalog.Api.Models;
 
 namespace WaynePartsCatalog.Api.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options)
+    : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
-    // Representa la tabla principal del catalogo.
     public DbSet<EngineeringPart> EngineeringParts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

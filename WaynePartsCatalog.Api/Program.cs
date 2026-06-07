@@ -8,8 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Configura la conexion con PostgreSQL usando la cadena definida en appsettings.json.
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContextPool<AppDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Registra el servicio que contiene la logica de paginacion.
 builder.Services.AddScoped<PartService>();
@@ -38,3 +39,4 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
