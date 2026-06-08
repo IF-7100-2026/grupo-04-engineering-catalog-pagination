@@ -6,9 +6,9 @@ public class PartFilterDto
 
     public DateOnly? ManufactureDateTo { get; set; }
 
-    public DateTime? RegistrationFrom { get; set; }
+    public DateTimeOffset? RegistrationFrom { get; set; }
 
-    public DateTime? RegistrationTo { get; set; }
+    public DateTimeOffset? RegistrationTo { get; set; }
 
     public int? WeightFrom { get; set; }
 

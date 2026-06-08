@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using WaynePartsCatalog.Api.Services;
 using WaynePartsCatalog.Api.Data;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Registra los controladores de la API.

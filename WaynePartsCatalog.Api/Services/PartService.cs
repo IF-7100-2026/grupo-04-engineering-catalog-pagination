@@ -31,11 +31,9 @@ public class PartService(AppDbContext context)
 
         query = query.OrderBy(p => p.PartId);
 
-        //var stopwatch = Stopwatch.StartNew();
-
         var countWatch = Stopwatch.StartNew();
 
-        var totalElements = await query.CountAsync();
+        var totalElements = await query.LongCountAsync();
 
         countWatch.Stop();
 
