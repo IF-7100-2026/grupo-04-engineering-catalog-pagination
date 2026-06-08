@@ -18,8 +18,11 @@ const sizeFromFilter = document.getElementById("sizeFromFilter");
 const sizeToFilter = document.getElementById("sizeToFilter");
 const manufactureDateFromFilter = document.getElementById("manufactureDateFromFilter");
 const manufactureDateToFilter = document.getElementById("manufactureDateToFilter");
+const registrationFromFilter = document.getElementById("registrationFromFilter");
+const registrationToFilter = document.getElementById("registrationToFilter");
 const descriptionFilter = document.getElementById("descriptionFilter");
 const searchButton = document.getElementById("searchButton");
+const toIsoDateTime = (v) => v ? new Date(v).toISOString() : null;
 
 // Cuando la página termina de cargar, se consulta la primera página de datos.
 document.addEventListener("DOMContentLoaded", () => {
@@ -91,6 +94,14 @@ async function loadParts() {
 
     if (manufactureDateToFilter.value !== "") {
         params.append("manufactureDateTo", manufactureDateToFilter.value);
+    }
+
+    if (registrationFromFilter.value) {
+        params.append("registrationFrom", toIsoDateTime(registrationFromFilter.value));
+    }
+
+    if (registrationToFilter.value) {
+        params.append("registrationTo", toIsoDateTime(registrationToFilter.value));
     }
 
     if (descriptionFilter.value.trim() !== "") {
