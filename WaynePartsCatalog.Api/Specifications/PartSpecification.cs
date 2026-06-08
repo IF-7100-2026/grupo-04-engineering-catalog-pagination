@@ -3,8 +3,13 @@ using WaynePartsCatalog.Api.Models;
 
 namespace WaynePartsCatalog.Api.Specifications;
 
+// Clase encargada de aplicar filtros dinámicos sobre la consulta de partes.
+// Permite construir consultas LINQ de forma modular.
 public static class PartSpecification
 {
+
+    // Aplica filtros opcionales sobre la consulta de partes.
+    // Cada filtro solo se aplica si el valor está presente.
     public static IQueryable<EngineeringPart> ApplyFilters(
         IQueryable<EngineeringPart> query,
         PartFilterDto filters)

@@ -10,6 +10,7 @@ public class PartsController(PartService partService) : ControllerBase
 {
     private readonly PartService _partService = partService;
 
+    //Obtiene una lista paginada de partes del catálogo aplicando filtros opcionales.
     [HttpGet]
     public async Task<ActionResult<PaginatedResponseDto<PartResponseDto>>> GetParts(
         [FromQuery] int page = 0,
@@ -34,6 +35,7 @@ public class PartsController(PartService partService) : ControllerBase
     {
         try
         {
+            // Se construye el DTO de filtros con los parámetros recibidos por query string
             var filters = new PartFilterDto
             {
                 ManufactureDateFrom = manufactureDateFrom,
@@ -54,6 +56,7 @@ public class PartsController(PartService partService) : ControllerBase
                 DescriptionContains = descriptionContains
             };
 
+            // Se delega la lógica de negocio al servicio
             var response = await _partService.GetPartsAsync(
                 page,
                 size,
@@ -63,6 +66,7 @@ public class PartsController(PartService partService) : ControllerBase
         }
         catch (ArgumentException exception)
         {
+            // Si los parámetros de paginación son inválidos, se responde 400
             return BadRequest(new
             {
                 message = exception.Message

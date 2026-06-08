@@ -1,13 +1,14 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.ComponentModel.DataAnnotations;
 
 namespace WaynePartsCatalog.Tests.Integration;
 
+// Pruebas de integración para validar el comportamiento individual de cada filtro del catálogo de partes.
 public class FilterTests(WebApplicationFactory<Program> factory)
     : TestBase(factory)
 {
-
-
+    // Valida el filtro por rango de fecha de fabricación.
     [Fact]
     public async Task Filter_ByManufactureDate_ShouldWork()
     {
@@ -23,6 +24,7 @@ public class FilterTests(WebApplicationFactory<Program> factory)
             p.ManufactureDate <= new DateOnly(2025, 1, 1));
     }
 
+    // Valida el filtro por rango de timestamp de registro.
     [Fact]
     public async Task Filter_ByTimestamp_ShouldWork()
     {
@@ -38,6 +40,7 @@ public class FilterTests(WebApplicationFactory<Program> factory)
             p.RegistrationTimestamp <= new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc));
     }
 
+    // Valida el filtro por rango de peso.
     [Fact]
     public async Task Filter_ByWeight_ShouldWork()
     {
@@ -51,6 +54,7 @@ public class FilterTests(WebApplicationFactory<Program> factory)
             p.WeightKg >= 1000 && p.WeightKg <= 2000);
     }
 
+    // Valida el filtro por rango de tamaño.
     [Fact]
     public async Task Filter_BySize_ShouldWork()
     {
@@ -64,6 +68,7 @@ public class FilterTests(WebApplicationFactory<Program> factory)
             p.SizeMeters >= 10 && p.SizeMeters <= 50);
     }
 
+    // Valida el filtro exacto por material.
     [Fact]
     public async Task Filter_ByMaterial_ShouldWork()
     {
@@ -77,6 +82,7 @@ public class FilterTests(WebApplicationFactory<Program> factory)
             p.Material == "Steel");
     }
 
+    // Valida el filtro de búsqueda parcial en la descripción.
     [Fact]
     public async Task Filter_ByDescription_ShouldWork()
     {

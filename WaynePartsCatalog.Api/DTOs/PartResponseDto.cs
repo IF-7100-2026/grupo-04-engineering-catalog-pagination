@@ -1,5 +1,6 @@
 ﻿namespace WaynePartsCatalog.Api.DTOs;
 
+// DTO que representa la información de una parte devuelta al cliente.
 public class PartResponseDto
 {
     public Guid PartId { get; set; }

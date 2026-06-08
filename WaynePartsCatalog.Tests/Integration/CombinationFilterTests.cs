@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace WaynePartsCatalog.Tests.Integration;
 
+// Pruebas de integración que validan combinaciones de filtros simultáneos en el endpoint del catálogo de partes.
 public class CombinationFilterTests(WebApplicationFactory<Program> factory)
     : TestBase(factory)
 {
+    // Verifica que el filtro combinado de material + rango de peso funcione correctamente y solo devuelva resultados válidos.
     [Fact]
     public async Task Filter_MaterialAndWeight_ShouldWork()
     {
@@ -24,6 +26,7 @@ public class CombinationFilterTests(WebApplicationFactory<Program> factory)
             p.WeightKg <= 2000);
     }
 
+    // Verifica que los filtros de fecha de fabricación y timestamp de registro funcionen correctamente en conjunto.
     [Fact]
     public async Task Filter_DateAndTimestamp_ShouldWork()
     {
@@ -39,6 +42,7 @@ public class CombinationFilterTests(WebApplicationFactory<Program> factory)
             p.RegistrationTimestamp >= new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc));
     }
 
+    // Verifica que múltiples filtros combinados (material, peso, tamaño y descripción) se apliquen correctamente sin afectar la consistencia del resultado.
     [Fact]
     public async Task Filter_AllCombined_ShouldWork()
     {

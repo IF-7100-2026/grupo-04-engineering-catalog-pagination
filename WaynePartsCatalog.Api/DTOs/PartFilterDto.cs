@@ -1,5 +1,8 @@
-﻿namespace WaynePartsCatalog.Api.DTOs;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
+namespace WaynePartsCatalog.Api.DTOs;
+
+// Objeto de transferencia de datos que contiene los filtros disponibles para la consulta del catálogo de partes.
 public class PartFilterDto
 {
     public DateOnly? ManufactureDateFrom { get; set; }

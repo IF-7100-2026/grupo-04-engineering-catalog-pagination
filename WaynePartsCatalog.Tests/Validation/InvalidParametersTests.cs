@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace WaynePartsCatalog.Tests.Validation;
 
+// Pruebas de validación que verifican el comportamiento del API ante parámetros inválidos o casos borde.
 public class InvalidParametersTests(WebApplicationFactory<Program> factory)
     : TestBase(factory)
 {
+    // Verifica que un número de página negativo retorne BadRequest.
     [Fact]
     public async Task Invalid_Page_ShouldFail()
     {
@@ -15,6 +18,7 @@ public class InvalidParametersTests(WebApplicationFactory<Program> factory)
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
+    // Verifica que un tamaño de página igual a cero sea rechazado.
     [Fact]
     public async Task Invalid_SizeZero_ShouldFail()
     {
@@ -23,6 +27,7 @@ public class InvalidParametersTests(WebApplicationFactory<Program> factory)
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
+    // Verifica que tamaños de página excesivamente grandes sean rechazados.
     [Fact]
     public async Task Invalid_SizeTooLarge_ShouldFail()
     {
@@ -31,7 +36,7 @@ public class InvalidParametersTests(WebApplicationFactory<Program> factory)
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    //material inválido (vacío o solo espacios)
+    // Verifica que un material vacío o con espacios no rompa la API.
     [Fact]
     public async Task Invalid_Material_EmptyString_ShouldStillWorkOrBeIgnored()
     {
@@ -44,7 +49,7 @@ public class InvalidParametersTests(WebApplicationFactory<Program> factory)
         result.Should().NotBeNull();
     }
 
-    //String vacío en descripción
+    // Verifica que una descripción vacía no genere errores.
     [Fact]
     public async Task Invalid_Description_Empty_ShouldNotCrash()
     {
@@ -53,7 +58,7 @@ public class InvalidParametersTests(WebApplicationFactory<Program> factory)
         response.EnsureSuccessStatusCode();
     }
 
-    // Fechas invertidas
+    // Verifica que un rango de fechas invertido no rompa la API.
     [Fact]
     public async Task Invalid_DateRange_Inverted_ShouldStillReturnOk()
     {
@@ -63,7 +68,7 @@ public class InvalidParametersTests(WebApplicationFactory<Program> factory)
         response.EnsureSuccessStatusCode();
     }
 
-    //Combinación inválida múltiple
+    // Verifica que combinaciones de parámetros inválidos no provoquen fallos.
     [Fact]
     public async Task Invalid_CombinedParameters_ShouldNotCrash()
     {
@@ -77,7 +82,7 @@ public class InvalidParametersTests(WebApplicationFactory<Program> factory)
         result.Should().NotBeNull();
     }
 
-    //Null-edge simulado (parámetros omitidos)
+    // Verifica que cuando no se envían parámetros, la API use valores por defecto.
     [Fact]
     public async Task MissingParameters_ShouldReturnDefaultBehavior()
     {

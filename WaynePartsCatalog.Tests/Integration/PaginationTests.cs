@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace WaynePartsCatalog.Tests.Integration;
 
+// Pruebas de integración para validar el comportamiento de la paginación en el endpoint del catálogo de partes.
 public class PaginationTests(WebApplicationFactory<Program> factory)
     : TestBase(factory)
 {
+    // Valida la paginación por defecto (page=0, size=10) y la consistencia de los metadatos devueltos por la API.
     [Fact]
     public async Task DefaultPagination_ShouldReturn10Records_AndValidMetadata()
     {
@@ -34,6 +36,7 @@ public class PaginationTests(WebApplicationFactory<Program> factory)
             result.Page < result.TotalPages - 1);
     }
 
+    // Valida que el tamaño máximo de página permitido (300) sea respetado y que los metadatos sean consistentes.
     [Fact]
     public async Task Pagination_300_ShouldRespectMaxPageSize_AndReturnValidMetadata()
     {

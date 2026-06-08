@@ -6,6 +6,8 @@ using WaynePartsCatalog.Api.Specifications;
 
 namespace WaynePartsCatalog.Api.Services;
 
+// Servicio encargado de la lógica de negocio del catálogo de partes.
+// Maneja paginación, filtros y transformación de datos.
 public class PartService(AppDbContext context)
 {
     private readonly AppDbContext _context = context;
@@ -14,6 +16,7 @@ public class PartService(AppDbContext context)
     private const int DefaultPageSize = 10;
     private const int MaxPageSize = 300;
 
+    // Obtiene una lista paginada de partes aplicando filtros y midiendo el rendimiento de la consulta.
     public async Task<PaginatedResponseDto<PartResponseDto>> GetPartsAsync(int page, int size, PartFilterDto filters)
     {
         ValidatePaginationParameters(page, size);
@@ -25,6 +28,7 @@ public class PartService(AppDbContext context)
         var query = _context.EngineeringParts
             .AsNoTracking();
 
+        //Aplicación de filtros dinámicos
         query = PartSpecification.ApplyFilters(
             query,
             filters);
@@ -33,12 +37,14 @@ public class PartService(AppDbContext context)
 
         var countWatch = Stopwatch.StartNew();
 
+        // Conteo total de registros (para paginación)
         var totalElements = await query.LongCountAsync();
 
         countWatch.Stop();
 
         var dataWatch = Stopwatch.StartNew();
 
+        // Obtención de datos paginados
         var parts = await query
             .Skip(page * size)
             .Take(size)
@@ -74,6 +80,7 @@ public class PartService(AppDbContext context)
         };
     }
 
+    // Valida que los parámetros de paginación sean válidos.
     private static void ValidatePaginationParameters(int page, int size)
     {
         if (page < 0)
