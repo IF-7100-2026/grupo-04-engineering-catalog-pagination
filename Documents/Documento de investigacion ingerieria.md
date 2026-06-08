@@ -267,7 +267,7 @@ Para mantener el código ordenado, la solución se dividió en capas simples. La
 
 El flujo general de la solución es el siguiente:
 
-
+![Figura 1: Arquitectura / Flujo general de la solución](./Figuras_Documento/Figura_1.png)
 
 *Figura \#1: Arquitectura / Flujo general de la solución .*
 
@@ -528,11 +528,9 @@ Estos resultados también muestran que la paginación no solo funciona para pág
 
 ## Diagrama entidad-relación {#diagrama-entidad-relación}
 
-	
+![Figura 2: Diagrama entidad-relación](./Figuras_Documento/Figura_2.png)
 
-   
-
-       *Figura \#2: Diagrama de entidad relación de la base de datos.*
+*Figura \#2: Diagrama de entidad relación de la base de datos.*
 
 * **part\_id**: actúa como la clave primaria de la tabla. Su tipo de dato es UUID.  
 * **manufacture\_date**: almacena una fecha. Su tipo de dato es DATE y tiene la restricción NOT NULL, que no permite valores nulos.  
@@ -781,9 +779,10 @@ Para validar el comportamiento de la solución se desarrolló un conjunto de pru
 
 A continuación, se presenta evidencia que muestra el éxito de las pruebas realizadas. 
 
+![Figura 3: Pruebas desde el Explorador](./Figuras_Documento/Figura_3.png)
 
 *Figura \#3: Pruebas desde el Explorador de Pruebas*  
-*.*  
+
 También, se ejecutaron las pruebas con el comando “dotnet test \--logger "console;verbosity=detailed"” con la finalidad de retornar información referente a las pruebas. Durante la ejecución se validaron situaciones como: 
 
 * Consultas SQL generadas por Entity Framework Core  
@@ -892,7 +891,7 @@ Por otra parte, los filtros dinámicos fueron implementados sobre una consulta b
 
 El flujo de procesamiento definido es:
 
-
+![Figura 4: Flujo de procesamiento de filtros dinámicos](./Figuras_Documento/Figura_4.png)
 
 *Figura \#4: Flujo de procesamiento de los filtros dinámicos*
 
